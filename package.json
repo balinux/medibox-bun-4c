@@ -1,12 +1,18 @@
 {
-  "name": "medibox-bun-4c",
-  "module": "index.ts",
+  "name": "medibox-bun",
+  "module": "src/index.ts",
   "type": "module",
   "private": true,
+  "scripts": {
+    "start": "bun run src/index.ts"
+  },
   "devDependencies": {
     "@types/bun": "latest"
   },
   "peerDependencies": {
     "typescript": "^5"
+  },
+  "dependencies": {
+    "hono": "^4.12.25"
   }
 }
