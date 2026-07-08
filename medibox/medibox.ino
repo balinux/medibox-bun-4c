@@ -10,9 +10,9 @@ Servo servo1;
 Servo servo2;
 
 // ================= KONFIGURASI WiFi & SERVER =================
-const char* ssid       = "TP";
-const char* password   = "123@khalid";
-const char* serverUrl  = "http://192.168.1.3:3000/api/schedule";
+const char* ssid       = "nama wifi";
+const char* password   = "password wifi";
+const char* serverUrl  = "http://192.168.1.3:3000/api/schedule";// sesuaikan ip dengan ip laptop server
 
 // ================= DEKLARASI PIN ESP32 =================
 const int pinBuzzer  = 14;
