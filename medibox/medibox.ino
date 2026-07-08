@@ -10,9 +10,9 @@ Servo servo1;
 Servo servo2;
 
 // ================= KONFIGURASI WiFi & SERVER =================
-const char* ssid       = "your_ssid";
-const char* password   = "your_password";
-const char* serverUrl  = "http://192.168.1.100:3000/api/schedule";
+const char* ssid       = "TP";
+const char* password   = "123@khalid";
+const char* serverUrl  = "http://192.168.1.3:3000/api/schedule";
 
 // ================= DEKLARASI PIN ESP32 =================
 const int pinBuzzer  = 14;
@@ -72,8 +72,12 @@ void setup() {
   if (WiFi.status() == WL_CONNECTED) {
     lcd.setCursor(0, 1);
     lcd.print("  WiFi Connected ");
-    Serial.print("IP: ");
+    Serial.print("ESP32 IP : ");
     Serial.println(WiFi.localIP());
+    Serial.print("Server   : ");
+    Serial.println(serverUrl);
+    Serial.print("Gateway  : ");
+    Serial.println(WiFi.gatewayIP());
   } else {
     lcd.setCursor(0, 1);
     lcd.print("  WiFi Failed    ");
@@ -146,8 +150,20 @@ void loop() {
 }
 
 void checkApiSchedule() {
+  if (WiFi.status() != WL_CONNECTED) {
+    Serial.println("WiFi not connected, reconnecting...");
+    WiFi.reconnect();
+    int retry = 0;
+    while (WiFi.status() != WL_CONNECTED && retry < 10) {
+      delay(500);
+      retry++;
+    }
+    return;
+  }
+
   HTTPClient http;
   http.begin(serverUrl);
+  http.setTimeout(5000);
   int httpCode = http.GET();
 
   if (httpCode == HTTP_CODE_OK) {
@@ -190,6 +206,8 @@ void checkApiSchedule() {
   } else {
     Serial.print("HTTP error: ");
     Serial.println(httpCode);
+    Serial.print("WiFi RSSI: ");
+    Serial.println(WiFi.RSSI());
   }
 
   http.end();

@@ -4,6 +4,7 @@ import {
   printUpcomingMedicines,
 } from "./services/reminder";
 import { Hono } from "hono";
+import { cors } from "hono/cors";
 
 // Inisialisasi Database jika belum ada
 initDb();
@@ -12,7 +13,9 @@ initDb();
 // printUpcomingMedicines();
 
 const app = new Hono();
-// 1. GET ALL BOOKS (Read)
+
+app.use("/*", cors());
+
 app.get("/api/schedule", (c) => {
   const medicines = getUpcomingMedicines();
   return c.json(medicines);
